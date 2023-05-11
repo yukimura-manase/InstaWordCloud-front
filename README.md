@@ -4,6 +4,13 @@
 
 <br>
 
+### 0. 前提条件: BackEnd-API の環境を構築済み
+
+まずは、こちらの
+[InstaWordCloud-backend-api](https://github.com/yukimura-manase/InstaWordCloud-backend-api)
+が立ち上がっていることが前提になります。
+<br>
+
 ### 1. プロジェクトを Clone
 
 ```
@@ -85,3 +92,7 @@ docker-compose down
 ### 2. GitHub
 
 [【Git・GitHub】GitHub からプロジェクトをクローン(Clone)してセットアップする方法](https://masanyon.com/git-github-project-clone-setup/)
+
+### 3. 別々の docker-compose.yml で作成された Docker コンテナを Network 接続する方法
+
+[別々の docker-compose.yml で作成された Docker コンテナを Network 接続する方法](https://masanyon.com/docker-docker-compose-yml-container-network-share/)
