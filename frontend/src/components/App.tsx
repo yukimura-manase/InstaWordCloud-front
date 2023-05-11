@@ -1,11 +1,5 @@
 import { useState, useRef } from "react";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-} from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent } from "@mui/material";
 import styled from "styled-components";
 // Material_UI_Icons
 import IconButton from "@mui/material/IconButton";
@@ -15,6 +9,9 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 // SVG_Icons
 import CSVFileIcon from "../assets/icons/csv_file.svg";
 import ExclamationTriangleIcon from "../assets/icons/exclamation_triangle.svg";
+
+// Component
+// import CheckSwitch from "./CheckSwitch";
 
 const App = () => {
   // CSV_File_State & Upload
@@ -37,6 +34,14 @@ const App = () => {
     console.log("createWordCloud");
 
     // TODO: WordCloud作成処理
+    if (csvFile) {
+      // FormData_Instanceを作成する
+      const FD = new FormData();
+      let csv = csvFile as Blob;
+      FD.append("csv_file", csv);
+    } else {
+      alert("CSVファイルを選択してください。");
+    }
   };
 
   // SetしているCSV_FileをDeleteする
@@ -53,8 +58,33 @@ const App = () => {
   };
 
   // CSVの中身の情報、ColumnやRow_Dataを表示するためのFunction
-  const createCSVInfo = () => {
+  const createCSVInfo = async () => {
     console.log("createCSVInfo");
+    console.log("csvFile", csvFile);
+    console.log("typeof", typeof csvFile);
+
+    if (csvFile) {
+      // FormData_Instanceを作成する
+      const formData = new FormData();
+      let csv = csvFile as Blob;
+
+      // key: file
+      formData.append("file", csv);
+      console.log("formData", formData);
+
+      // Flask-APIに、Post通信
+      const formResponse = await fetch(
+        "http://localhost:5001/api/create_csv_info",
+        {
+          method: "POST", // HTTP-Methodを指定する！
+          body: formData, // リクエストボディーにフォームデータを設定
+        }
+      );
+
+      console.log(await formResponse.json());
+    } else {
+      alert("CSVファイルを選択してください。");
+    }
 
     // TODO: CSV解析処理
   };
@@ -186,6 +216,8 @@ const App = () => {
           </div>
         </main>
       </div>
+
+      {/* <CheckSwitch default={true} /> */}
 
       {/* Delete_Dialog */}
       <div>
