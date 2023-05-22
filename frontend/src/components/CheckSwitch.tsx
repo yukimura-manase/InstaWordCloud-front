@@ -1,5 +1,5 @@
 import { Switch } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 // Propsの型定義
 interface PropsType {
   default: boolean;

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button, Dialog, DialogActions, DialogContent } from "@mui/material";
 import styled from "styled-components";
 // Material_UI_Icons
@@ -10,8 +10,21 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CSVFileIcon from "../assets/icons/csv_file.svg";
 import ExclamationTriangleIcon from "../assets/icons/exclamation_triangle.svg";
 
-// Component
+// Component_Test
 // import CheckSwitch from "./CheckSwitch";
+// import ImageFileUpload from "./ImageFileUpload";
+// import SelectBox from "./SelectBox";
+import TableList from "./TableList";
+
+// 行(Row)のDataType
+interface JsonDataType {
+  [key: string]: any;
+}
+// TableDataのType
+interface TableDataType {
+  columnKeyList: string[];
+  rowDataList: JsonDataType[];
+}
 
 const App = () => {
   // CSV_File_State & Upload
@@ -57,9 +70,40 @@ const App = () => {
     closeDeleteDialog();
   };
 
+  // Table_Componentに渡すDataSet: Table_Props_Data
+  const [displayTableData, setDisplayTableData] = useState<
+    TableDataType | undefined
+  >(undefined);
+
+  const createTableColumnKeyList = (object: JsonDataType) => {
+    return Object.keys(object);
+  };
+
+  // Flask-APIで、解析した CSVファイルをJSON化したData
+  const [jsonCsvData, setJsonCsvData] = useState<JsonDataType[] | undefined>(
+    undefined
+  );
+
+  // jsonCsvData の変更を監視する
+  useEffect(() => {
+    if (jsonCsvData) {
+      // Table_Props_Data を作成する
+      const columnKeyList = createTableColumnKeyList(jsonCsvData[0]);
+      setDisplayTableData({
+        columnKeyList: columnKeyList,
+        rowDataList: jsonCsvData,
+      });
+      // Table_Component_Display_Flag
+      setIsCSVInfoDisplay(true);
+    }
+  }, [jsonCsvData]);
+
+  // CSV_Info_Display_制御_Flag
+  const [isCSVInfoDisplay, setIsCSVInfoDisplay] = useState<boolean>(false);
+
   // CSVの中身の情報、ColumnやRow_Dataを表示するためのFunction
-  const createCSVInfo = async () => {
-    console.log("createCSVInfo");
+  const displayCSVInfo = async () => {
+    console.log("displayCSVInfo");
     console.log("csvFile", csvFile);
     console.log("typeof", typeof csvFile);
 
@@ -72,21 +116,29 @@ const App = () => {
       formData.append("file", csv);
       console.log("formData", formData);
 
-      // Flask-APIに、Post通信
-      const formResponse = await fetch(
-        "http://localhost:5001/api/create_csv_info",
-        {
-          method: "POST", // HTTP-Methodを指定する！
-          body: formData, // リクエストボディーにフォームデータを設定
-        }
-      );
+      try {
+        // Flask-APIに、Post通信
+        const formResponse = await fetch(
+          "http://localhost:5001/api/create_csv_info",
+          {
+            method: "POST", // HTTP-Methodを指定する！
+            body: formData, // リクエストボディーにフォームデータを設定
+          }
+        );
 
-      console.log(await formResponse.json());
+        // Response.json() => 自動で、Parseされる
+        const parseDataList = await formResponse.json();
+        console.log("parseDataList", parseDataList);
+        console.log("parseDataList_typeof", typeof parseDataList);
+
+        // JsonDataをSetする
+        setJsonCsvData(parseDataList);
+      } catch (error) {
+        console.error(error);
+      }
     } else {
       alert("CSVファイルを選択してください。");
     }
-
-    // TODO: CSV解析処理
   };
 
   // 削除_BtnのDisabled制御 => Default: true
@@ -121,16 +173,28 @@ const App = () => {
           </p>
         </header>
         <main className="main_wrapper">
-          {/* CSV_Image_Icon */}
-          <div className="csv_icon_wrapper">
-            <img
-              src={CSVFileIcon}
-              alt="CSV_image"
-              style={{
-                width: "15%",
-              }}
-            />
-          </div>
+          {isCSVInfoDisplay ? (
+            //  Table_Component
+            displayTableData ? (
+              <TableList
+                columnKeyList={displayTableData?.columnKeyList}
+                rowDataList={displayTableData?.rowDataList}
+              />
+            ) : (
+              <span></span>
+            )
+          ) : (
+            // CSV_Image_Icon
+            <div className="csv_icon_wrapper">
+              <img
+                src={CSVFileIcon}
+                alt="CSV_image"
+                style={{
+                  width: "15%",
+                }}
+              />
+            </div>
+          )}
           {/* CSV_Upload_Interface */}
           <div className="csv_input_wrapper">
             <label htmlFor="csv_file_input">
@@ -197,7 +261,7 @@ const App = () => {
             {/* CSV_Info_Display_Btn */}
             <Button
               variant="contained"
-              onClick={() => createCSVInfo()}
+              onClick={() => displayCSVInfo()}
               sx={{
                 mt: 3,
                 mb: -1.5,
@@ -216,8 +280,6 @@ const App = () => {
           </div>
         </main>
       </div>
-
-      {/* <CheckSwitch default={true} /> */}
 
       {/* Delete_Dialog */}
       <div>
