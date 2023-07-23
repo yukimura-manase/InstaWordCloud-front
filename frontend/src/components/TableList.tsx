@@ -7,18 +7,18 @@ import {
   TableBody,
 } from "@mui/material";
 
-// 行(Row)のDataType
+/** 行(Row)のDataType */
 export interface RowDataType {
   [key: string]: any;
 }
 
-// Propsの型定義
+/** Propsの型定義 */
 interface PropsType {
   columnKeyList: string[];
   rowDataList: RowDataType[];
 }
 
-// TableのComponent => 縦型(Column_Key)のTableList
+/**  TableのComponent => 縦型(Column_Key)のTableList */
 const TableList = (props: PropsType) => {
   // props.columnKey
   console.log("TableList_Props", props);
