@@ -1,16 +1,17 @@
 import { Switch } from "@mui/material";
-import { useState } from "react";
-// Propsの型定義
+import { useState, CSSProperties, Dispatch, SetStateAction } from "react";
+/** Propsの型定義 */
 interface PropsType {
   default: boolean;
+  style?: CSSProperties;
+  setter: Dispatch<SetStateAction<boolean>>;
 }
-
+/** Switchコンポーネント: Propsで、defaultの真偽値や Setterを受け取る */
 const CheckSwitch = (props: PropsType) => {
-  // Test_Switch
-  const [testChecked, setTestUserChecked] = useState<boolean>(props.default);
-  const testSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("Test_Switch", event.target.checked);
-    setTestUserChecked(event.target.checked);
+  const [checked, setChecked] = useState<boolean>(props.default);
+  const onSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+    props.setter(event.target.checked);
   };
   return (
     <div
@@ -18,11 +19,13 @@ const CheckSwitch = (props: PropsType) => {
         textAlign: "center",
       }}
     >
-      <Switch
-        checked={testChecked}
-        onChange={(e) => testSwitch(e)}
-        name="testUSwitch"
-      />
+      <div style={props.style ? props.style : undefined}>
+        <Switch
+          checked={checked}
+          onChange={(e) => onSwitch(e)}
+          name="testSwitch"
+        />
+      </div>
     </div>
   );
 };

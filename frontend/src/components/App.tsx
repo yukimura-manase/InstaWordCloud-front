@@ -15,6 +15,7 @@ import ExclamationTriangleIcon from "../assets/icons/exclamation_triangle.svg";
 // import ImageFileUpload from "./ImageFileUpload";
 // import SelectBox from "./SelectBox";
 import TableList from "./TableList";
+// import CustomSettingTable from "./CustomSettingTable";
 
 // 行(Row)のDataType
 interface JsonDataType {
@@ -280,6 +281,9 @@ const App = () => {
           </div>
         </main>
       </div>
+
+      {/* Test_Block */}
+      {/* <CustomSettingTable /> */}
 
       {/* Delete_Dialog */}
       <div>
