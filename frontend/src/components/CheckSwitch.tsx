@@ -5,6 +5,7 @@ interface PropsType {
   default: boolean;
   style?: CSSProperties;
   setter: Dispatch<SetStateAction<boolean>>;
+  disabled: boolean;
 }
 /** Switchコンポーネント: Propsで、defaultの真偽値や Setterを受け取る */
 const CheckSwitch = (props: PropsType) => {
@@ -24,6 +25,7 @@ const CheckSwitch = (props: PropsType) => {
           checked={checked}
           onChange={(e) => onSwitch(e)}
           name="testSwitch"
+          disabled={props.disabled}
         />
       </div>
     </div>

@@ -1,21 +1,23 @@
 import { useState, useRef, useEffect } from "react";
 import { Button, Dialog, DialogActions, DialogContent } from "@mui/material";
 import styled from "styled-components";
-// Material_UI_Icons
+/** Material_UI_Icons */
 import IconButton from "@mui/material/IconButton";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-// SVG_Icons
+/** SVG_Icons */
 import CSVFileIcon from "../assets/icons/csv_file.svg";
 import ExclamationTriangleIcon from "../assets/icons/exclamation_triangle.svg";
 
-// Component_Test
+/** Component_Test */
 // import CheckSwitch from "./CheckSwitch";
 // import ImageFileUpload from "./ImageFileUpload";
 // import SelectBox from "./SelectBox";
 import TableList from "./TableList";
 // import CustomSettingTable from "./CustomSettingTable";
+
+import DndBoard from "./DndCardList/DndBoard";
 
 // 行(Row)のDataType
 interface JsonDataType {
@@ -173,6 +175,9 @@ const App = () => {
             Instagramの投稿内容をまとめたCSVファイルの内容からWordCloudを作成するAppです🔥
           </p>
         </header>
+        <div>
+          <DndBoard />
+        </div>
         <main className="main_wrapper">
           {isCSVInfoDisplay ? (
             //  Table_Component
@@ -388,7 +393,7 @@ const App = () => {
   );
 };
 
-// App_ComponentでのStyle
+/**  App_ComponentでのStyle */
 const AppWrapper = styled.div`
   /* Headerエリアに対するスタイル */
   .app_header {
