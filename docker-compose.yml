@@ -17,7 +17,7 @@ services:
     command: sh -c 'cd frontend && yarn start'
     # ホストマシンPort番号:コンテナのPost番号
     ports:
-      - 8001:3000
+      - 8002:3000
     # CLI画面の操作をできるようにする
     tty: true
     # Containerが接続するNetworkを定義
