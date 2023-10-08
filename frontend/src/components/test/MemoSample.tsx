@@ -1,4 +1,4 @@
-// import React, { useMemo, memo } from 'react';
+import React, { useMemo, memo } from "react";
 
 // function ExpensiveComponent({ data }) {
 //   const result = useMemo(() => {
@@ -9,6 +9,6 @@
 //   return <div>{result}</div>;
 // }
 
-// const MemoizedComponent = memo(({ data }) => {
-//   return <div>{data}</div>;
-// });
+export const MemoizedComponent = memo(() => {
+  return <div></div>;
+});
