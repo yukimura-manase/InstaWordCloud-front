@@ -3,7 +3,7 @@ import { Button, Dialog, DialogActions, DialogContent } from "@mui/material";
 import styled from "styled-components";
 /** Material_UI_Icons */
 import IconButton from "@mui/material/IconButton";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
+// import UploadFileIcon from "@mui/icons-material/UploadFile";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 /** SVG_Icons */
@@ -11,19 +11,21 @@ import CSVFileIcon from "../assets/icons/csv_file.svg";
 import ExclamationTriangleIcon from "../assets/icons/exclamation_triangle.svg";
 
 /** Component_Test */
-// import CheckSwitch from "./CheckSwitch";
-// import ImageFileUpload from "./ImageFileUpload";
-// import SelectBox from "./SelectBox";
-import TableList from "./TableList";
+import TableList from "./ui-parts/table/TableList";
 // import CustomSettingTable from "./CustomSettingTable";
+// import DndBoard from "./DndCardList/DndBoard";
+// import SquareCheckBox from "./atoms/input/SquareCheckBox";
+// import CustomDialog from "./atoms/dialog/CustomDialog";
 
-import DndBoard from "./DndCardList/DndBoard";
+/** Test View Component */
+import Test from "./views/Test";
+import RobotamaFanClub from "./views/RobotamaFanClub";
 
-// 行(Row)のDataType
+/** 行(Row)のDataType */
 interface JsonDataType {
   [key: string]: any;
 }
-// TableDataのType
+/** TableDataのType */
 interface TableDataType {
   columnKeyList: string[];
   rowDataList: JsonDataType[];
@@ -165,6 +167,22 @@ const App = () => {
     setIsOpenDeleteDialog(false);
   };
 
+  // /** Dialog関係 */
+  // const [isCheck, setIsCheck] = useState(false);
+
+  // /** Dialog_Open_Flag */
+  // const [isOpen, setIsOpen] = useState(false);
+  // /** SupporterDetailDialog_Open_Func */
+  // const openDialog = () => {
+  //   console.log("openSupporterDetailDialog_Call");
+  //   setIsOpen(true);
+  // };
+
+  // /** SupporterDetailDialog_Close_Flag */
+  // const closeDialog = () => {
+  //   setIsOpen(false);
+  // };
+
   return (
     <AppWrapper>
       <div className="app_wrapper">
@@ -175,10 +193,31 @@ const App = () => {
             Instagramの投稿内容をまとめたCSVファイルの内容からWordCloudを作成するAppです🔥
           </p>
         </header>
-        <div>
-          <DndBoard />
-        </div>
+
+        {/* Spacer_Component */}
+        <div
+          style={{
+            height: "120px",
+          }}
+        ></div>
+
         <main className="main_wrapper">
+          {/* Test Block */}
+          <div
+            style={{
+              textAlign: "center",
+            }}
+          ></div>
+          <Test />
+          <RobotamaFanClub />
+
+          {/* Spacer_Component */}
+          <div
+            style={{
+              height: "50px",
+            }}
+          ></div>
+
           {isCSVInfoDisplay ? (
             //  Table_Component
             displayTableData ? (
