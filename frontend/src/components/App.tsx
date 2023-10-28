@@ -20,6 +20,9 @@ import TableList from "./ui-parts/table/TableList";
 /** Test View Component */
 import Test from "./views/Test";
 import RobotamaFanClub from "./views/RobotamaFanClub";
+import NetworkView from "./views/NetworkView";
+import NetworkView2 from "./views/NetworkView2";
+import FetchTest from "./views/FetchTest";
 
 /** 行(Row)のDataType */
 interface JsonDataType {
@@ -208,8 +211,12 @@ const App = () => {
               textAlign: "center",
             }}
           ></div>
-          <Test />
-          <RobotamaFanClub />
+          <FetchTest />
+          <NetworkView2 />
+          {/* <NetworkView /> */}
+
+          {/* <Test /> */}
+          {/* <RobotamaFanClub /> */}
 
           {/* Spacer_Component */}
           <div

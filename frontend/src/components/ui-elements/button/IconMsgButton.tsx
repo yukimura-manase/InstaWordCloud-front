@@ -4,7 +4,7 @@ import { CSSProperties, Dispatch, SetStateAction } from "react";
 interface PropsType {
   /** label タグと連携して Click 判定領域を拡張するための id */
   btnId: string;
-  /** SVG_Icon は JSX.Elemtn として Component 定義したものを想定しています */
+  /** SVG_Icon は JSX.Element として Component 定義したものを想定しています */
   svgIcon: JSX.Element;
   /** ボタンの表示 Text・ラベル */
   text: string;
