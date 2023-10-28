@@ -69,7 +69,7 @@ ba6f52ee8084   insta_word_cloud_app-frontend   "docker-entrypoint.s…"   7 seco
 
 ### 7. Web ブラウザからアクセスする
 
-http://localhost:8001/ にアクセスして、FrontApp の起動を確認する
+http://localhost:8002/ にアクセスして、FrontApp の起動を確認する
 
 ### 8. Docker コンテナの停止 & 削除
 
