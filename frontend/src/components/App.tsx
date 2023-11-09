@@ -23,6 +23,7 @@ import RobotamaFanClub from "./views/RobotamaFanClub";
 import NetworkView from "./views/NetworkView";
 import NetworkView2 from "./views/NetworkView2";
 import FetchTest from "./views/FetchTest";
+import Test2 from "./views/Test2";
 
 /** 行(Row)のDataType */
 interface JsonDataType {
@@ -211,8 +212,9 @@ const App = () => {
               textAlign: "center",
             }}
           ></div>
-          <FetchTest />
-          <NetworkView2 />
+          <Test2 />
+          {/* <FetchTest /> */}
+          {/* <NetworkView2 /> */}
           {/* <NetworkView /> */}
 
           {/* <Test /> */}

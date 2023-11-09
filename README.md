@@ -13,7 +13,7 @@
 
 ### 1. プロジェクトを Clone
 
-```
+```bash
 git clone git@github.com:yukimura-manase/InstaWordCloud-front.git
 ```
 
@@ -21,7 +21,7 @@ git clone git@github.com:yukimura-manase/InstaWordCloud-front.git
 
 frontend ディレクトリに移動して、パッケージを install する
 
-```
+```bash
 cd InstaWordCloud-front/frontend/ && npm install
 ```
 
@@ -29,7 +29,7 @@ cd InstaWordCloud-front/frontend/ && npm install
 
 docker-compose build コマンドは、Docker ファイルから image を作成してくれるコマンドです。
 
-```
+```bash
 docker-compose build
 ```
 
@@ -41,7 +41,7 @@ docker-compose build
 
 docker image ls で、build された image を確認しておきます。
 
-```
+```bash
 docker image ls
 
 # [ 出力結果 ]
@@ -53,15 +53,21 @@ insta_word_cloud_app-frontend      latest    32f9a111b134   6 seconds ago   173M
 
 次のコマンドで、Docker Compose ファイルに定義されたサービスをバックグラウンドで起動できます。
 
-```
+```bash
 docker-compose up -d
+```
+
+ちなみに、Image のビルド と コンテナの実行を同時にする場合は、次のコマンドを実行します。
+
+```bash
+docker-compose up --build
 ```
 
 ### 6. コンテナの起動状況を確認する
 
 Docker コンテナの起動状況は、`docker container ps` コマンドで確認できます。
 
-```
+```bash
 docker container ps
 CONTAINER ID   IMAGE                           COMMAND                  CREATED          STATUS          PORTS                               NAMES
 ba6f52ee8084   insta_word_cloud_app-frontend   "docker-entrypoint.s…"   7 seconds ago    Up 5 seconds    0.0.0.0:8000->3000/tcp              insta_word_cloud_app-frontend-1
@@ -75,7 +81,7 @@ http://localhost:8002/ にアクセスして、FrontApp の起動を確認する
 
 docker-compose down コマンドを使用して、すべてのコンテナを停止し、削除することができます。
 
-```
+```bash
 docker-compose down
 ```
 
