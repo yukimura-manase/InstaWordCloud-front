@@ -18,12 +18,18 @@ import TableList from "./ui-parts/table/TableList";
 // import CustomDialog from "./atoms/dialog/CustomDialog";
 
 /** Test View Component */
-import Test from "./views/Test";
-import RobotamaFanClub from "./views/RobotamaFanClub";
-import NetworkView from "./views/NetworkView";
-import NetworkView2 from "./views/NetworkView2";
-import FetchTest from "./views/FetchTest";
-import Test2 from "./views/Test2";
+// import Test from "./views/Test";
+// import RobotamaFanClub from "./views/RobotamaFanClub";
+// import NetworkView from "./views/NetworkView";
+// import NetworkView2 from "./views/NetworkView2";
+// import FetchTest from "./views/FetchTest";
+// import Test2 from "./views/Test2";
+// import ValtioTest from "./test/TestValtio";
+// import ValtioTestView from "./views/ValtioTestView";
+import ChartTestView from "./views/ChartTestView";
+// import SearchSelectBox from "./ui-elements/selectbox/SearchSelectBox";
+// import SearchMultiSelectBox from "./ui-elements/selectbox/SearchMultiSelectBox";
+import { Loading } from "./ui-elements/loading/Loading";
 
 /** 行(Row)のDataType */
 interface JsonDataType {
@@ -212,7 +218,9 @@ const App = () => {
               textAlign: "center",
             }}
           ></div>
-          <Test2 />
+          <Loading />
+          {/* <ChartTestView /> */}
+          {/* <Test2 /> */}
           {/* <FetchTest /> */}
           {/* <NetworkView2 /> */}
           {/* <NetworkView /> */}
