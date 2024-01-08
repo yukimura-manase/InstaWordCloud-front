@@ -287,31 +287,6 @@ const NodeData_3 = generateDataFromNodes(Nodes_3, "girl_2");
 const NodeData_4 = generateDataFromNodes(Nodes_4, "girl_3");
 const NodeData_5 = generateDataFromNodes(Nodes_5, "space_broccoli");
 
-// const outerNodeData0 = {
-//   ...NodeData_1,
-//   ...NodeData_2,
-// };
-// console.log("outerNodeData0", outerNodeData0);
-
-// const outerNodeData = {
-//   ...NodeData_1,
-//   ...NodeData_2,
-//   ...NodeData_3,
-//   ...NodeData_4,
-//   ...NodeData_5,
-// };
-// console.log("outerNodeData", outerNodeData);
-
-// const merged = Object.assign(
-//   {},
-//   NodeData_1,
-//   NodeData_2,
-//   NodeData_3,
-//   NodeData_4,
-//   NodeData_5
-// );
-// console.log("merged", merged);
-
 /** 最初から表示されている Nodes & Edges */
 const initialData = generateDataFromNodes(controlNodes, "rootNode");
 console.log("initialData", initialData);

@@ -1,34 +1,36 @@
-import PQueue from "p-queue";
-// import got from "got";
+import { parallelRequestQueue } from "../../libs/pqueue/parallelRequestQueue";
 
 /** 大量の非同期の並列処理・Fetch Test */
 const FetchTest = () => {
   console.group("FetchTest");
 
-  /** PQueue Instance を生成する */
-  const queue = new PQueue({
-    autoStart: true, // 同時実行制限内のキュータスクが追加されるとすぐに自動実行されるかどうか。
-    concurrency: 10, // 同時実行制限
-  });
-  console.log("queue", queue);
+  // 並列処理のキューを作成
+  const todoFetch = async () => {
+    /** 非同期実行・タスクリスト */
+    const tasks = [] as Array<() => Promise<void>>;
 
-  (async () => {
-    const response = await queue.add(() =>
-      fetch("https://jsonplaceholder.typicode.com/todos/")
-    );
-    console.log("Done: response 1", response);
-  })();
+    /** JSON Place Holder の TODO id List */
+    const jsonplaceholderIdList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-  (async () => {
-    const response = await queue.add(() =>
-      fetch("https://jsonplaceholder.typicode.com/todos/")
-    );
-    console.log("Done: response 2", response);
-  })();
+    // 並列処理のタスクを作成する
+    jsonplaceholderIdList.forEach((id) => {
+      tasks.push(async () => {
+        const res = await fetch(
+          `https://jsonplaceholder.typicode.com/todos/${id}`
+        );
+        const json = await res.json();
+        console.log(json);
+      });
+    });
 
-  const fetchFunc = async () => {};
+    // addAll で 10件まで非同期・並列処理
+    await parallelRequestQueue.addAll(tasks);
 
-  console.groupEnd();
+    console.groupEnd();
+  };
+
+  /** 並列・非同期処理を実行する */
+  todoFetch();
   return (
     <div>
       <div>大量の非同期の並列処理・Fetch Test</div>

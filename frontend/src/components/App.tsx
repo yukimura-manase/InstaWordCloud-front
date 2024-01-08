@@ -26,10 +26,13 @@ import TableList from "./ui-parts/table/TableList";
 // import Test2 from "./views/Test2";
 // import ValtioTest from "./test/TestValtio";
 // import ValtioTestView from "./views/ValtioTestView";
-import ChartTestView from "./views/ChartTestView";
+// import ChartTestView from "./views/ChartTestView";
 // import SearchSelectBox from "./ui-elements/selectbox/SearchSelectBox";
 // import SearchMultiSelectBox from "./ui-elements/selectbox/SearchMultiSelectBox";
-import { Loading } from "./ui-elements/loading/Loading";
+// import { Loading } from "./ui-elements/loading/Loading";
+// import SelectTermCalender from "./ui-elements/date/SelectTermCalender";
+// import DatePicker from "react-datepicker";
+// import DialogCustom from "./ui-elements/dialog/Dialog";
 
 /** 行(Row)のDataType */
 interface JsonDataType {
@@ -193,6 +196,9 @@ const App = () => {
   //   setIsOpen(false);
   // };
 
+  const [dateRange, setDateRange] = useState([null, null]);
+  const [start, end] = dateRange;
+
   return (
     <AppWrapper>
       <div className="app_wrapper">
@@ -218,8 +224,14 @@ const App = () => {
               textAlign: "center",
             }}
           ></div>
-          <Loading />
+
           {/* <ChartTestView /> */}
+
+          {/* <DialogCustom /> */}
+
+          {/* <SelectTermCalender /> */}
+          {/* <Loading /> */}
+
           {/* <Test2 /> */}
           {/* <FetchTest /> */}
           {/* <NetworkView2 /> */}

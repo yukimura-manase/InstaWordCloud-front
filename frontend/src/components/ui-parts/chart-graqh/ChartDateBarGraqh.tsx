@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from "react";
 import {
   Chart as ChartJS,
+  ChartData,
   LinearScale,
   CategoryScale,
   BarElement,
@@ -11,6 +11,8 @@ import {
   LineController,
   BarController,
   Title,
+  ScatterDataPoint,
+  BubbleDataPoint,
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
 
@@ -50,7 +52,7 @@ const calculateYAxisMin = (value: number): number => {
     return Math.ceil((adjustedValue + 5) / 5) * 5;
   }
 
-  // 桁数に応じて四捨五入し、整数でキリの良い数字にする
+  // 桁数に応じて四捨五入し、整数でキリのいい数字にする
   const magnitude = Math.pow(
     10,
     Math.floor(Math.log10(Math.abs(adjustedValue))) -
@@ -82,7 +84,7 @@ const calculateYAxisMax = (value: number): number => {
     return Math.ceil(adjustedValue / 5) * 5;
   }
 
-  // 桁数に応じて四捨五入し、整数でキリの良い数字にする
+  // 桁数に応じて四捨五入し、整数でキリのいい数字にする
   const magnitude = Math.pow(
     10,
     Math.floor(Math.log10(Math.abs(adjustedValue))) -
@@ -93,24 +95,10 @@ const calculateYAxisMax = (value: number): number => {
 
 // 7日間の Daily Data
 const start = new Date("2023-01-01");
-const end = new Date("2023-1-28");
+const end = new Date("2023-1-8");
 
-/** 日付の配列 */
+/** 1. x軸: 日付のラベルの配列 */
 const dateList = [];
-
-/** 積み上げ実績リスト */
-const totalScoreList = [];
-
-/** いいね数リスト */
-const targetScoreList = [];
-
-// //最小値の算出
-// let yAxisMin = Math.min(...yAxisDataList);
-// yAxisMin = calculateYAxisMin(yAxisMin);
-
-// //最大値の算出
-// let yAxisMax = Math.max(...yAxisDataList);
-// yAxisMax = calculateYAxisMax(yAxisMax);
 
 // for文で1日づつ日付を加算して、終了日付までループして用意した配列に「push」で追加
 for (const day = start; day <= end; day.setDate(day.getDate() + 1)) {
@@ -121,75 +109,149 @@ for (const day = start; day <= end; day.setDate(day.getDate() + 1)) {
 }
 console.log(dateList);
 
-/** 1. x軸: 日付のラベルの配列 */
-const labels = dateList;
+/** 2. 積み上げ実績リスト: y軸左 & 折れ線グラフ */
+const totalScoreList = [11, 22, 39, 50, 77, 80, 85];
+/** 3. いいね数リスト: y軸右 & 棒グラフ */
+const targetScoreList = [1, 11, 17, 11, 22, 3, 5];
+
+// 4. 最小値/最大値の算出を 「積み上げ実績」 と 「Target指標」 それぞれで実施する
+let totalScoreMin = 0;
+let totalScoreMax = 100;
+if (totalScoreList) {
+  // 最小値の算出
+  totalScoreMin = Math.min(...totalScoreList);
+  totalScoreMin = calculateYAxisMin(totalScoreMin);
+
+  // 最大値の算出
+  totalScoreMax = Math.max(...totalScoreList);
+  totalScoreMax = calculateYAxisMax(totalScoreMax);
+}
+console.log("「積み上げ実績」");
+console.log("totalScoreMin", totalScoreMin);
+console.log("totalScoreMax", totalScoreMax);
+
+let targetScoreMin = 0;
+let targetScoreMax = 100;
+if (targetScoreList) {
+  // 最小値の算出
+  targetScoreMin = Math.min(...targetScoreList);
+  targetScoreMin = calculateYAxisMin(targetScoreMin);
+
+  // 最大値の算出
+  targetScoreMax = Math.max(...targetScoreList);
+  targetScoreMax = calculateYAxisMax(targetScoreMax);
+}
+console.log("「Target指標」");
+console.log("targetScoreMin", targetScoreMin);
+console.log("targetScoreMax", targetScoreMax);
 
 const data = {
-  /** x軸のラベルの配列: 日付ラベル */
-  labels,
+  /** 1. x軸のラベルの配列: 日付ラベル */
+  labels: dateList,
   /** Chart に表示する DataSet */
   datasets: [
     // 2. y軸・左: 積み上げ実績 であり、折れ線グラフで表現する
     {
-      type: "line", // 折れ線
+      /** 折れ線グラフ */
+      type: "line",
       label: "積み上げ実績",
+      backgroundColor: "#8884d8",
       borderColor: "#8884d8",
       borderWidth: 2,
       fill: false,
-      /** 28日間の Daily Data */
-      data: [
-        11, 32, 43, 21, 32, 41, 21, 11, 32, 43, 21, 32, 41, 21, 11, 32, 43, 21,
-        32, 41, 21, 11, 32, 43, 21, 32, 41, 21,
-      ],
-      yAxisID: "yleft", // optionsで設定したIDを割り振ってY軸を設定する
+      /** 積み上げ実績: 28日間の Daily Data */
+      data: totalScoreList,
+      yAxisID: "yleft", // optionsで設定したIDを指定
     },
-    // 3. y軸・右: 投稿人数など、動的な DataSet => 棒グラフで表現する
+    // 3. y軸・右: 「いいね数」=> 棒グラフで表現する
     {
-      type: "bar", // 棒グラフ
+      /** 棒グラフ */
+      type: "bar",
       label: "いいね数",
       backgroundColor: "#cacaca",
-      borderColor: "white",
+      borderColor: "#cacaca",
       borderWidth: 2,
-      /** 28日間の Daily Data */
-      data: [
-        1, 3, 4, 2, 3, 4, 2, 1, 3, 4, 2, 3, 4, 2, 1, 3, 4, 2, 3, 4, 2, 1, 3, 4,
-        2, 3, 4, 2,
-      ],
-      yAxisID: "yright", // Y軸の設定
+      /** いいね数: 28日間の Daily Data */
+      data: targetScoreList,
+      /** y軸・右 */
+      yAxisID: "yright",
     },
   ],
 };
 
 export const options: {} = {
-  plugins: {
-    title: {
-      display: false,
-    },
-  },
+  maintainAspectRatio: false,
   responsive: true,
+  animation: false,
   scales: {
+    /** x軸 */
     x: {
       stacked: false,
     },
+    /** yleft (y軸・左): Y軸が、複数あるので yleft と yright のように軸にIDを付ける */
     yleft: {
-      // Y軸が、複数あるので yleft と yright のように軸にIDを付ける
       stacked: false,
-      max: 100,
+      max: totalScoreMax,
       min: 0,
     },
+    /** yright (y軸・右): Y軸が、複数あるので yleft と yright のように軸にIDを付ける */
     yright: {
       stacked: false,
       position: "right",
-      max: 10,
+      max: targetScoreMax,
       min: 0,
+    },
+  },
+  interaction: {
+    /** 積み上げ実績 & 該当値 を合わせて表示する */
+    mode: "index",
+    intersect: false,
+  },
+  plugins: {
+    /** タイトル設定 */
+    title: {
+      display: false,
+    },
+    /** ツールチップ設定 */
+    tooltip: {
+      backgroundColor: "rgba(255,255,255,0.8)",
+      titleColor: "#1a1826",
+      titleSpacing: 10,
+      bodyColor: "#1a1826",
+      bodySpacing: 10,
+      displayColors: true,
+      borderColor: "#afaeb3",
+      borderWidth: 1,
+      padding: 12,
+      titleFont: {
+        size: 18,
+      },
+      bodyFont: {
+        size: 18,
+      },
     },
   },
 };
 
+/** 折れ線 & 棒グラフの Chart */
 const ChartDateBarGraqh = () => {
   return (
-    <div className="App">
-      <Chart type={"bar"} data={data} options={options} />
+    <div
+      style={{
+        height: "300px",
+      }}
+    >
+      <Chart
+        type={"bar"}
+        data={
+          data as ChartData<
+            "line" | "bar",
+            (number | ScatterDataPoint | BubbleDataPoint | null)[],
+            unknown
+          >
+        }
+        options={options}
+      />
     </div>
   );
 };
